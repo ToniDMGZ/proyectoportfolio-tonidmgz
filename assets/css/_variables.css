@@ -63,8 +63,11 @@
 	--font-weight-bold: 700;
 
 	/* Font families */
-	--font-family-base: "Gravitas One", serif;
-	--font-family-heading: var(--font-family-base);
+	/* la familia base (párrafos, textos normales) usa la nueva tipografía
+	   cargada desde Google Fonts */
+	--font-family-base: 'Inter', sans-serif;
+	/* los headings conservan Gravitas One, que se importa por separado */
+	--font-family-heading: 'Gravitas One', serif;
 	--font-family-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Monaco, 'Courier New', monospace;
 
 	/* ===== SPACING SCALE ===== */
