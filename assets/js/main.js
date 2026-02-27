@@ -76,6 +76,21 @@ function scrollToTop() {
 // PEDAGOGICAL NOTE: In production, prefer addEventListener over onclick
 window.scrollToTop = scrollToTop;
 
+// ===== BACK TO TOP BUTTON VISIBILITY =====
+// Show button once user scrolls past viewport height
+const backToTopBtn = document.getElementById('back-to-top');
+function toggleBackToTop() {
+	if (!backToTopBtn) return;
+	if (window.scrollY > window.innerHeight * 0.5) {
+		backToTopBtn.classList.add('show');
+	} else {
+		backToTopBtn.classList.remove('show');
+	}
+}
+window.addEventListener('scroll', toggleBackToTop);
+// initialize state
+toggleBackToTop();
+
 // ===== SMOOTH SCROLL BEHAVIOR =====
 // PEDAGOGICAL NOTE: CSS scroll-behavior is simpler, but this works in all browsers
 
@@ -100,3 +115,75 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 
 console.log('✅ Scrollytelling initialized');
 console.log(`📊 Observing ${document.querySelectorAll('[data-observe]').length} sections`);
+
+// ===== CONTACT MODAL BEHAVIOR =====
+const openContactBtn = document.getElementById('open-contact-modal');
+const contactModal = document.getElementById('contact-modal');
+const restoreContactBtn = document.getElementById('restore-contact');
+if (openContactBtn && contactModal) {
+	const closeBtn = contactModal.querySelector('.contact-modal__close');
+	const overlay = contactModal.querySelector('.contact-modal__overlay');
+	const disableBtn = contactModal.querySelector('#contact-disable');
+
+	// If user previously chose to hide contact modal, reflect that state
+	const isHidden = localStorage.getItem('hideContactModal') === '1';
+	if (isHidden) {
+		openContactBtn.style.display = 'none';
+		if (restoreContactBtn) restoreContactBtn.style.display = 'inline-block';
+	}
+
+	function openContactModal() {
+		// respect user preference
+		if (localStorage.getItem('hideContactModal') === '1') return;
+		contactModal.classList.add('open');
+		contactModal.setAttribute('aria-hidden', 'false');
+		// lock scroll
+		document.body.style.overflow = 'hidden';
+		// focus close for accessibility
+		if (closeBtn) closeBtn.focus();
+	}
+
+	function closeContactModal() {
+		contactModal.classList.remove('open');
+		contactModal.setAttribute('aria-hidden', 'true');
+		document.body.style.overflow = '';
+		openContactBtn.focus();
+	}
+
+	openContactBtn.addEventListener('click', (e) => {
+		e.preventDefault();
+		openContactModal();
+	});
+
+	// disable (don't show again) button
+	if (disableBtn) {
+		disableBtn.addEventListener('click', (ev) => {
+			ev.preventDefault();
+			localStorage.setItem('hideContactModal', '1');
+			closeContactModal();
+			// hide the main CTA and show restore link
+			openContactBtn.style.display = 'none';
+			if (restoreContactBtn) restoreContactBtn.style.display = 'inline-block';
+		});
+	}
+
+	// restore contact visibility
+	if (restoreContactBtn) {
+		restoreContactBtn.addEventListener('click', (ev) => {
+			ev.preventDefault();
+			localStorage.removeItem('hideContactModal');
+			openContactBtn.style.display = '';
+			restoreContactBtn.style.display = 'none';
+			openContactBtn.focus();
+		});
+	}
+
+	if (closeBtn) closeBtn.addEventListener('click', closeContactModal);
+	if (overlay) overlay.addEventListener('click', closeContactModal);
+
+	document.addEventListener('keydown', (ev) => {
+		if (ev.key === 'Escape' && contactModal.classList.contains('open')) {
+			closeContactModal();
+		}
+	});
+}

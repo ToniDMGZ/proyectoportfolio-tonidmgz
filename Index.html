@@ -48,20 +48,7 @@
             combinando técnicas pictóricas, gráficas y, en ocasiones, collage.
           </p>
 
-          <div class="stat-display">
-            <div class="stat-item">
-              <span class="stat-number">3+</span>
-              <span class="stat-label">Años de Experiencia</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number">50+</span>
-              <span class="stat-label">Proyectos Completados</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number">10+</span>
-              <span class="stat-label">Clientes Satisfechos</span>
-            </div>
-          </div>
+          
 
           <p>
             Creo que cada ilustración, dibujo, obra... debe evocar a algo en nuestro interior. 
@@ -205,17 +192,46 @@
         <div class="final-content">
           <h2>¿Trabajamos Juntos?</h2>
           <p>
-            Si tienes un proyecto en mente o simplemente quieres charlar sobre
-            ilustración, me encantaría escucharte. Estoy siempre abierto a
+            Si tienes un proyecto en mente me encantaría escucharte. Estoy siempre abierto a
             nuevas colaboraciones creativas.
           </p>
-          <a href="mailto:tu@email.com" class="cta-button">Contacta Conmigo</a>
+          <button id="open-contact-modal" class="cta-button" aria-haspopup="dialog" aria-controls="contact-modal">Contacta Conmigo</button>
 
-          <p class="mt-xl text-muted">
-            <strong>Reflexión:</strong> Este portfolio usa scrollytelling para
-            contar mi historia de forma progresiva. Cada sección se revela
-            mientras navegas, creando una experiencia más inmersiva que una
-            página tradicional.
+          <!-- Contact modal -->
+          <div id="contact-modal" class="contact-modal" aria-hidden="true">
+            <div class="contact-modal__overlay" data-close></div>
+            <div class="contact-modal__content" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
+              <button class="contact-modal__close" aria-label="Cerrar">&times;</button>
+              <h3 id="contact-modal-title">Contacta conmigo</h3>
+              <div class="contact-links">
+                <a href="mailto:antoniodommil@gmail.com" class="contact-link contact-link--gmail" title="Enviar email">
+                  <!-- Gmail / envelope icon -->
+                  <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                    <rect x="2" y="4" width="20" height="16" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M3 6l9 7 9-7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span>antoniodommil@gmail.com</span>
+                </a>
+
+                <a href="https://instagram.com/tonidmgz.028" target="_blank" rel="noopener" class="contact-link contact-link--insta" title="Instagram">
+                  <!-- Instagram icon -->
+                  <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                    <rect x="3" y="3" width="18" height="18" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
+                  </svg>
+                  <span>@tonidmgz.028</span>
+                </a>
+              </div>
+              <div style="display:flex;gap:.5rem;margin-top:.75rem;align-items:center;justify-content:flex-end;">
+                <button id="contact-disable" class="contact-modal__disable">No mostrar otra vez</button>
+              </div>
+            </div>
+          </div>
+          </div>
+
+          <button id="restore-contact" class="cta-link" style="display:none;margin-left:0.75rem">Mostrar contacto</button>
+
           </p>
         </div>
       </section>
@@ -228,6 +244,30 @@
       </div>
     </div>
 
+    <!-- botón volver arriba (SVG estilo dibujado a mano) -->
+    <button id="back-to-top" onclick="scrollToTop()" aria-label="Volver arriba">
+      <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- filtro para dar textura de lápiz/carboncillo -->
+          <filter id="pencil" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+        </defs>
+
+        <!-- trazado principal con filtro -->
+        <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" filter="url(#pencil)">
+          <path d="M12 19V6" />
+          <path d="M5 12l7-7 7 7" />
+        </g>
+
+        <!-- doble trazo desplazado para efecto hecho a mano -->
+        <g stroke="rgba(255,255,255,0.18)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" transform="translate(-0.6,0.8)">
+          <path d="M12 19V6" />
+          <path d="M5 12l7-7 7 7" />
+        </g>
+      </svg>
+    </button>
     <script src="./assets/js/main.js"></script>
   </body>
 </html>

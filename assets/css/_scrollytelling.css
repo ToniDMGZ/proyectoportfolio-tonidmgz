@@ -22,27 +22,84 @@ min-height: 100vh;
 text-align: center;
   background-image: url(https://ik.imagekit.io/ghijz4heg/hero-ilustracion-torso.jpg);
   background-size: cover;
-  background-position: center;
+  background-position: center top;
   background-repeat: no-repeat;
   padding: var(--space-2xl);
+  animation: bgPan 60s linear infinite;
+}
+
+/* subtle background pan for hero */
+@keyframes bgPan {
+	0% { background-position: center top; }
+	50% { background-position: center bottom; }
+	100% { background-position: center top; }
 } 
 
 
 .hero h1 {
-	font-size: var(--font-size-4xl);
-	color: white;
+	font-size: clamp(1.75rem, 4.5vw, 4rem);
+	/* gradient text color animation */
+	background: linear-gradient(90deg, white 20%, #ff4d4d 50%, white 80%);
+	background-size: 200% 100%;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 	margin-bottom: var(--space-md);
 	font-weight: var(--font-weight-bold);
+	-webkit-text-stroke: 0.3px #000000;
 	opacity: 0;
 	transform: translateY(30px);
-	animation: fadeInUp 1s ease forwards;
+	animation: fadeInUp 1s ease forwards, heartbeat 2s infinite, gradientShift 4s ease infinite;
 }
 
+/* heartbeat effect for hero title */
+@keyframes heartbeat {
+	0%, 100% { transform: translateY(30px) scale(1); }
+	10%, 30% { transform: translateY(30px) scale(1.1); }
+	20% { transform: translateY(30px) scale(0.95); }
+	40%, 60% { transform: translateY(30px) scale(1); }
+	50% { transform: translateY(30px) scale(1.05); }
+}
+
+/* gradient shift animation for title */
+@keyframes gradientShift {
+	0% { background-position: 0% 50%; }
+	50% { background-position: 100% 50%; }
+	100% { background-position: 0% 50%; }
+}
+
+/* softer heartbeat for general headings */
+@keyframes heartbeat-soft {
+	0%, 100% { transform: scale(1); }
+	15%, 35% { transform: scale(1.05); }
+	25% { transform: scale(0.97); }
+	50%, 70% { transform: scale(1); }
+	60% { transform: scale(1.03); }
+}
+
+/* apply soft beat to all section headings (not hero) */
+.story-section h1,
+.story-section h2,
+.story-section h3,
+/* exclude story-section h4 because timeline uses h4s */
+.story-section h5,
+.story-section h6,
+.final-content h2 {
+	animation: heartbeat-soft 4s infinite;
+}
+
+/* disable heartbeat for timeline headings */
+.timeline-item h4 {
+	animation: none;
+}
+
+
 .hero p {
-	font-size: var(--font-size-lg);
+	font-size: clamp(1.2rem, 3vw, 2.5rem);
 	color: rgba(255, 255, 255, 0.9);
 	max-width: 600px;
 	margin: 0 auto var(--space-xl);
+	font-weight: 900;
+	-webkit-text-stroke: 1px #000000;
 	opacity: 0;
 	transform: translateY(30px);
 	animation: fadeInUp 1s ease 0.3s forwards;
@@ -244,13 +301,72 @@ text-align: center;
 
 .card:hover {
 	background: rgba(255, 255, 255, 0.1);
-	transform: translateY(-5px);
+	transform: translateY(-8px) scale(1.03);
+	box-shadow: var(--shadow-lg);
+}
+
+/* ===== BACK TO TOP BUTTON ===== */
+/* improved back-to-top button styling */
+#back-to-top {
+	position: fixed;
+	top: calc(var(--space-lg) + 8px);
+	right: calc(var(--space-lg) + 8px);
+	background: linear-gradient(135deg,#16a085,#1abc9c);
+	color: white;
+	border: none;
+	padding: 0.6rem;
+	width: 48px;
+	height: 48px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 12px;
+	font-size: 1.125rem;
+	cursor: pointer;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.18s ease, box-shadow 0.18s ease;
+	z-index: var(--z-fixed);
+	box-shadow: 0 8px 20px rgba(26, 188, 156, 0.18);
+}
+
+#back-to-top.show {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0);
+}
+
+#back-to-top svg {
+	width: 20px;
+	height: 20px;
+	display: block;
+	color: white;
+}
+
+#back-to-top:hover {
+	transform: translateY(-6px) scale(1.03);
+	box-shadow: 0 12px 30px rgba(26, 188, 156, 0.24);
+}
+
+#back-to-top:focus {
+	outline: 3px solid rgba(26, 188, 156, 0.25);
+	outline-offset: 3px;
+}
+
+/* make SVG paths look sketched: use currentColor and slightly irregular stroke rendering */
+#back-to-top svg path,
+#back-to-top svg g {
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	vector-effect: non-scaling-stroke;
 }
 
 .card h4 {
 	color: var(--color-accent-blue);
 	margin-bottom: var(--space-sm);
 	font-size: var(--font-size-xl);
+	/* disable heartbeat animation on card titles */
+	animation: none;
 }
 
 /* ===== TIMELINE ===== */
@@ -331,7 +447,7 @@ text-align: center;
 
 .final-content h2 {
 	font-size: var(--font-size-4xl);
-	color: white;
+	color: #ff0000; /* rojo vibrante */
 	margin-bottom: var(--space-md);
 }
 
@@ -344,7 +460,7 @@ text-align: center;
 
 .cta-button {
 	background: white;
-	color: #667eea;
+	color: #8B0000; /* rojo oscuro para el texto */
 	padding: var(--space-md) var(--space-3xl);
 	border: none;
 	border-radius: var(--radius-full);
@@ -361,6 +477,181 @@ text-align: center;
 	transform: translateY(-3px);
 	box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 	text-decoration: none;
+}
+
+/* Contact modal styles */
+.contact-modal {
+	position: fixed;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 9999;
+	pointer-events: none;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 220ms ease, visibility 220ms ease, transform 220ms ease;
+}
+.contact-modal.open {
+	pointer-events: auto;
+	opacity: 1;
+	visibility: visible;
+}
+.contact-modal__overlay {
+	position: absolute;
+	inset: 0;
+	background: rgba(0,0,0,0.55);
+	backdrop-filter: blur(2px);
+}
+.contact-modal__content {
+	position: relative;
+	background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,250,0.98));
+	padding: 1.25rem 1.5rem;
+	border-radius: 12px;
+	box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+	max-width: 420px;
+	width: calc(100% - 48px);
+	transform: translateY(-10px);
+}
+.contact-modal__close {
+	position: absolute;
+	right: 8px;
+	top: 8px;
+	border: none;
+	background: transparent;
+	font-size: 1.25rem;
+	cursor: pointer;
+	color: #333;
+}
+.contact-modal__content h3 { margin: 0 0 0.75rem 0; font-size: 1.25rem; color: #8B0000; }
+.contact-links { display: grid; gap: 0.75rem; }
+.contact-link { display: flex; gap: 0.75rem; align-items: center; text-decoration: none; padding: 0.5rem; border-radius: 8px; color: #222; transition: background .18s ease, transform .12s ease; }
+.contact-link svg { width: 28px; height: 28px; flex: 0 0 28px; color: #8B0000; }
+.contact-link span { font-weight: 600; }
+.contact-link:hover { background: rgba(0,0,0,0.03); transform: translateY(-3px); }
+.contact-link--gmail svg { color: #D44638; }
+.contact-link--insta svg { color: #E1306C; }
+
+@media (max-width: 480px) {
+	.contact-modal__content { padding: 1rem; }
+	.contact-link span { font-size: 0.95rem; }
+}
+
+/* ===== LIGHTBOX (IMAGE ZOOM) ===== */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10010;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 220ms ease, visibility 220ms ease;
+}
+.lightbox.open {
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+}
+.lightbox__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+}
+.lightbox__content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(0);
+}
+.lightbox__content img {
+  max-width: 100%;
+  max-height: 85vh;
+  border-radius: 6px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+.lightbox__close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  background: #8B0000;
+  color: #fff;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+.lightbox__caption {
+  margin-top: 0.6rem;
+  color: #fff;
+  text-align: center;
+  font-size: 0.95rem;
+}
+@media (max-width: 520px) {
+  .lightbox__close { top: -10px; right: -10px; width: 32px; height: 32px; }
+}
+	border: 1px solid rgba(0,0,0,0.08);
+	color: #444;
+	padding: 0.4rem 0.6rem;
+	border-radius: 8px;
+	cursor: pointer;
+	font-size: 0.95rem;
+}
+.contact-modal__disable:hover { background: rgba(0,0,0,0.03); }
+
+/* restore contact small link (displayed when user disabled modal) */
+.cta-link {
+	background: none;
+	border: none;
+	color: #8B0000;
+	text-decoration: underline;
+	cursor: pointer;
+	font-size: 0.95rem;
+	padding: 0.25rem 0.35rem;
+}
+
+/* ---------- Drawn-stroke animation for contact icons ---------- */
+.contact-modal .contact-link svg path,
+.contact-modal .contact-link svg rect,
+.contact-modal .contact-link svg circle {
+	stroke-dasharray: 1000;
+	stroke-dashoffset: 1000;
+	transition: stroke-dashoffset 0.9s cubic-bezier(.22,.9,.35,1), opacity 0.2s ease;
+	opacity: 0.98;
+}
+
+.contact-modal.open .contact-link--gmail svg path,
+.contact-modal.open .contact-link--gmail svg rect,
+.contact-modal.open .contact-link--gmail svg circle {
+	transition-delay: 0s;
+	stroke-dashoffset: 0;
+}
+
+.contact-modal.open .contact-link--insta svg path,
+.contact-modal.open .contact-link--insta svg rect,
+.contact-modal.open .contact-link--insta svg circle {
+	transition-delay: 0.14s;
+	stroke-dashoffset: 0;
+}
+
+/* subtle wobble to reinforce hand-drawn look when open */
+.contact-modal.open .contact-link svg {
+	transform-origin: left center;
+	animation: sketch-nudge 1.2s ease-in-out 0s 1;
+}
+
+@keyframes sketch-nudge {
+	0% { transform: translateX(0) rotate(0deg); }
+	30% { transform: translateX(-1px) rotate(-0.6deg); }
+	60% { transform: translateX(1px) rotate(0.6deg); }
+	100% { transform: translateX(0) rotate(0deg); }
 }
 
 /* ===== INFO OVERLAY ===== */
