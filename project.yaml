@@ -2,14 +2,14 @@
 # This file will be used to generate your entry in the course showroom
 
 # Basic information
-handle: your-github-username
-name: Your Full Name
+handle: ToniDMGZ
+name: Antonio Dominguez Millan
 email: your-email@udit.es
 
 # URLs (will be auto-generated if you follow naming conventions)
-github_url: https://github.com/your-username
-project_url: https://your-username.github.io/your-project-repo
-repository_url: https://github.com/your-username/your-project-repo
+github_url: https://github.com/ToniDMGZ
+project_url: https://tonidmgz.github.io/proyectoportfolio-tonidmgz
+repository_url: https://github.com/ToniDMGZ/proyectoportfolio-tonidmgz
 
 # Project details
 title:

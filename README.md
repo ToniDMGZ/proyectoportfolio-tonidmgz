@@ -1,6 +1,12 @@
 https://github.com/ToniDMGZ/proyectoportfolio-tonidmgz.git 
 
-# Portfolio Scrollytelling 
+# Portfolio Scrollytelling
+
+## 🔗 Ver el proyecto en vivo
+
+**[https://tonidmgz.github.io/proyectoportfolio-tonidmgz](https://tonidmgz.github.io/proyectoportfolio-tonidmgz)**
+
+> Para activar GitHub Pages: ve a **Settings → Pages → Source: Deploy from branch → main** en tu repositorio.
 
 # Objetivo
 
